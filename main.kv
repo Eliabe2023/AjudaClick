@@ -1,0 +1,322 @@
+ScreenManager:
+    LoginScreen:
+        name: 'login'
+    CadastroScreen:
+        name: 'cadastro'
+    MenuScreen:
+        name: 'menu'
+    DoacaoScreen:
+        name: 'doacao'
+    MeAjudaScreen:
+        name: 'me_ajuda'
+    EditarDadosScreen:
+        name: 'editar_dados'
+
+<LoginScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [20, 50, 20, 20]
+        spacing: 10
+
+        Image:
+            source: 'LOGO.png'
+            size_hint: (1, 10.0)
+            pos_hint: {"center_x": 0.5}
+
+        MDLabel:
+            text: "Login"
+            halign: "center"
+            font_style: "H5"
+
+        MDTextField:
+            id: cpf
+            hint_text: ""
+            helper_text: "Digite seu CPF"
+            helper_text_mode: "persistent"
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: 10
+
+            MDTextField:
+                id: senha
+                hint_text: ""
+                password: True
+                helper_text: "Digite sua senha"
+                helper_text_mode: "persistent"
+                on_focus:
+                    if self.focus: self.helper_text = ''
+                on_text:
+                    if self.text == '': self.helper_text = "Digite sua senha"
+
+            MDIconButton:
+                icon: "eye-off" if senha.password else "eye"
+                on_release:
+                    app.toggle_senha(self, senha)
+
+        MDRaisedButton:
+            text: "Login"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release:
+                app.realizar_login(cpf.text, senha.text)
+
+        MDFlatButton:
+            text: "Cadastrar"
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                root.manager.current = 'cadastro'
+
+<CadastroScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [20, 50, 20, 20]
+        spacing: 10
+        MDLabel:
+            text: "Cadastro"
+            halign: "center"
+            font_style: "H5"
+        MDTextField:
+            id: cpf
+            hint_text: ""
+            helper_text: "Digite seu CPF"
+            helper_text_mode: "persistent"
+        MDTextField:
+            id: nome
+            hint_text: ""
+            helper_text: "Digite seu nome completo"
+            helper_text_mode: "persistent"
+        MDTextField:
+            id: celular
+            hint_text: ""
+            helper_text: "Digite seu número de celular"
+            helper_text_mode: "persistent"
+        MDTextField:
+            id: endereco
+            hint_text: ""
+            helper_text: "Digite seu endereço"
+            helper_text_mode: "persistent"
+        MDTextField:
+            id: email
+            hint_text: ""
+            helper_text: "Digite seu e-mail"
+            helper_text_mode: "persistent"
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: 10
+            MDTextField:
+                id: senha
+                hint_text: ""
+                password: True
+                helper_text: "Digite sua senha"
+                helper_text_mode: "persistent"
+                on_focus:
+                    if self.focus: self.helper_text = ''
+                on_text:
+                    if self.text == '': self.helper_text = "Digite sua senha"
+            MDIconButton:
+                icon: "eye-off" if senha.password else "eye"
+                on_release:
+                    app.toggle_senha(self, senha)
+        MDRaisedButton:
+            text: "Cadastrar"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release:
+                app.realizar_cadastro(cpf.text, nome.text, celular.text, endereco.text, email.text, senha.text)
+        MDFlatButton:
+            text: "Voltar"
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                root.manager.current = 'login'
+
+<MenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [20, 50, 20, 20]
+        spacing: 10
+        MDLabel:
+            text: "Menu"
+            halign: "center"
+            font_style: "H5"
+        MDRaisedButton:
+            text: "Doar"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release:
+                root.manager.current = 'doacao'
+        MDRaisedButton:
+            text: "Me Ajuda"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release:
+                root.manager.current = 'me_ajuda'
+        MDRaisedButton:
+            text: "Editar Dados"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release:
+                app.preencher_dados_edicao()
+                root.manager.current = 'editar_dados'
+        MDRaisedButton:
+            text: "Logout"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release:
+                app.logout()
+
+<DoacaoScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(10)
+        MDLabel:
+            text: "Informações de Doação"
+            halign: "center"
+            font_style: "H5"
+        Image:
+            source: 'QRlogo.png'
+            size_hint: (None, None)
+            size: (dp(200), dp(200))
+            pos_hint: {"center_x": 0.5}
+        MDLabel:
+            text: "Chave Pix: clickajuda10@gmail.com"
+            halign: "center"
+        MDLabel:
+            text: "Banco: FICTÍCIO"
+            halign: "center"
+        MDLabel:
+            text: "Agência: 123-4"
+            halign: "center"
+        MDLabel:
+            text: "Conta: 5678-9"
+            halign: "center"
+        MDLabel:
+            text: "Rede Social: @redesocial.ficticio"
+            halign: "center"
+        MDTextField:
+            id: descricao
+            hint_text: ""
+            helper_text: "descreva sua doação"
+            helper_text_mode: "persistent"
+            multiline: True
+            size_hint_y: None
+            height: dp(100)
+        MDFlatButton:
+            text: "Enviar"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release: app.acao_doacao(descricao.text)
+        MDRaisedButton:
+            text: "Voltar"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release:
+                root.manager.current = 'menu'
+
+<MeAjudaScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [20, 50, 20, 20]
+        spacing: 10
+        MDLabel:
+            text: "Descreva sua necessidade:"
+            halign: "center"
+            font_style: "H5"
+        MDTextField:
+            id: descricao
+            hint_text: ""
+            helper_text_mode: "persistent"
+        MDRaisedButton:
+            text: "Enviar"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release:
+                app.acao_me_ajuda(descricao.text)
+        MDRaisedButton:
+            text: "Voltar"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release:
+                root.manager.current = 'menu'
+
+
+<EditarDadosScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(10)
+        spacing: dp(10)
+
+        # CPF será somente leitura
+        MDTextField:
+            id: cpf
+            hint_text: ""
+            text: ''  # Para manter o campo visível
+            readonly: True  # Define como não editável
+            helper_text_mode: "persistent"
+            on_focus:
+                self.helper_text = '' if self.focus else "Seu CPF"
+
+        # Os outros campos continuam editáveis
+        MDTextField:
+            id: nome
+            hint_text: ""
+            helper_text_mode: "persistent"
+            on_focus:
+                self.helper_text = '' if self.focus else "Digite seu nome"
+        MDTextField:
+            id: celular
+            hint_text: ""
+            helper_text_mode: "persistent"
+            on_focus:
+                self.helper_text = '' if self.focus else "Digite seu celular"
+        MDTextField:
+            id: endereco
+            hint_text: ""
+            helper_text_mode: "persistent"
+            on_focus:
+                self.helper_text = '' if self.focus else "Digite seu endereço"
+        MDTextField:
+            id: email
+            hint_text: ""
+            helper_text_mode: "persistent"
+            on_focus:
+                self.helper_text = '' if self.focus else "Digite seu e-mail"
+        MDTextField:
+            id: senha
+            hint_text: ""
+            password: True
+            helper_text_mode: "persistent"
+            on_focus:
+                self.helper_text = '' if self.focus else "Digite sua senha"
+        MDIconButton:
+            id: btn_toggle_senha
+            icon: "eye-off" if senha.password else "eye"
+            on_release: app.toggle_senha(btn_toggle_senha, senha)
+
+        MDRaisedButton:
+            text: "Salvar"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release: app.salvar_dados_edicao(nome.text, celular.text, endereco.text, email.text, senha.text)
+
+        MDFlatButton:
+            text: "Voltar"
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, None
+            height: dp(48)
+            on_release: root.manager.current = 'menu'
